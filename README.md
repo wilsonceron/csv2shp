@@ -1,5 +1,5 @@
 # csv2shp
-A simple tool to conver csv files to shape files
+A simple tool to convert csv files to shape files
 
 This is a simple python command-line script.
 YOU NEED PYTHON3 TO RUN IT!
