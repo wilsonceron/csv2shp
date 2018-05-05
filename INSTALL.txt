@@ -1,0 +1,8 @@
+Instalation on Debian
+
+	$sudo apt install gdal-bin python3-gdal
+
+
+Or using PIP3
+
+$sudo pip3 install gdal
