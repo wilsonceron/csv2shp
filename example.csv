@@ -1,0 +1,4 @@
+x,y,label,ranking
+real,real,string,integer
+3.2,1.0,"point1",3
+4.0,1.0,"point2",7
