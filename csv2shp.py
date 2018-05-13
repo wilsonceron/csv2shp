@@ -25,7 +25,7 @@ def	readOptions():
 	status = False
 
 	parser = argparse.ArgumentParser(description = "Basic Usage",formatter_class=RawTextHelpFormatter)
-	parser.add_argument("-i", "--input", help = "CSV input File\nFirst line: Header\nSecond line: Data type{integer, real or String}\nothers lines: Your data: \nExample:\n\tx,y,type,id\n\treal,real,string,integer\n\t-23.163353,-45.794501,'Rain gauge',9320 ", required = True, default = "")
+	parser.add_argument("-i", "--input", help = "CSV input File\nFirst line: Header\nSecond line: Data type{integer, real or string}\nothers lines: Your data: \nExample:\n\tx,y,type,id\n\treal,real,string,integer\n\t-23.163353,-45.794501,'Rain gauge',9320 ", required = True, default = "")
 	parser.add_argument("-o", "--output", help = "Output file name", required = True, default = "")
 	parser.add_argument("-t", "--type", type=str, choices=["points", "lines"],  help = "Shape type: points or lines", required = True, default = "")
 
@@ -79,7 +79,10 @@ def	createLines(data,outputFileName,shapeType):
 	dataType=dataType[4:]
 
 	for i in range (0, len(header) ):
-		f.write("<Field name='" + header[i] + "' src='"+header[i] + "' type='" + dataType[i] + "' width='45'/>\n")	
+		if header[i]=='string':
+			f.write("<Field name='" + header[i] + "' src='"+header[i] + "' type='" + dataType[i] + "' width='45'/>\n")
+		else:
+			f.write("<Field name='" + header[i] + "' src='"+header[i] + "' type='" + dataType[i] + "'			/>\n")		
 
 
 	f.write("</OGRVRTLayer>\n</OGRVRTDataSource>"+"\n")
@@ -111,9 +114,12 @@ def createPoints(data,outputFileName,shapeType):
 	f = open(csvFile, "w") 
 
 	for line in data:
-		for i in  range(0,len(line)):
-			f.write(line[i]+",")			
-		f.write("\n")
+		size = len(line)
+		for i in  range(0,size):
+			if i != (size -1):
+				f.write(line[i]+",")
+			else:			
+				f.write(line[i]+"\n")
 	f.close()
 
 	vrt= path+"/"+outputFileName+"_points.vrt"
@@ -128,7 +134,10 @@ def createPoints(data,outputFileName,shapeType):
 	dataType=dataType[2:]
 
 	for i in range (0, len(header) ):
-		f.write("<Field name='" + header[i] + "' src='"+header[i] + "' type='" + dataType[i] + "' width='45'/>\n")	
+		if header[i]=='string':
+			f.write("<Field name='" + header[i] + "' src='"+header[i] + "' type='" + dataType[i] + "' width='45'/>\n")
+		else:
+			f.write("<Field name='" + header[i] + "' src='"+header[i] + "' type='" + dataType[i] + "'			/>\n")		
 
 
 	f.write("</OGRVRTLayer>\n</OGRVRTDataSource>"+"\n")
